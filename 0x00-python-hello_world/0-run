@@ -1,3 +1,21 @@
 #!/bin/bash
-# Runs a python script
-python3 $PYFILE
+
+# Check if PYFILE is set and is a valid file
+if [[ -z "$PYFILE" ]]; then
+    echo "Error: PYFILE environment variable is not set."
+    exit 1
+elif [[ ! -f "$PYFILE" ]]; then
+    echo "Error: File $PYFILE does not exist."
+    exit 2
+fi
+
+# Run the Python script
+python "$PYFILE"
+
+# Check the status of the Python script execution
+if [[ $? -ne 0 ]]; then
+    echo "Error: Python script $PYFILE failed to execute."
+    exit 3
+fi
+
+echo "Python script $PYFILE executed successfully."
